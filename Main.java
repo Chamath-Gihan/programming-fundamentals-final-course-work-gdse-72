@@ -1,7 +1,11 @@
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Main {
     static Scanner scanner = new Scanner(System.in);
+    static String validUsername = "admin";
+    static String validPassword = "1234";
+
     public static void main(String[] args) {
         boolean next = loginPage();
 
@@ -22,13 +26,13 @@ public class Main {
             System.out.println("4. Log Out");
             System.out.println("5. Exist the system");
 
-            System.out.print("Enter your choice (1-5): ");
+            System.out.print("\nEnter your choice (1-5): ");
             String choice = scanner.next();
             scanner.nextLine(); // Consume newline character
 
             switch (choice) {
                 case "1":
-//                    changePassword();
+                    credentialManage();
                     break;
                 case "2":
 //                    viewProfile();
@@ -50,17 +54,58 @@ public class Main {
         }
     }
 
+    public static void credentialManage() {
+        clearConsole();
+        topicRectangle("CREDENTIAL MANAGE");
+
+        while (true) {
+            System.out.print("\nPlease enter the user name to verify it's you: ");
+            String name = scanner.next();
+
+            if (Objects.equals(name, validUsername)) {
+                System.out.println("\nHey " + validUsername);
+                while (true) {
+                    System.out.print("\nEnter your current password: ");
+                    String password = scanner.next();
+
+                    if (password.equals(validPassword)) {
+                        System.out.print("Enter your new password: ");
+                        validPassword = scanner.next();
+                        System.out.print("\nPassword changed successfully! Do you want to go to the Home page (Y/N): ");
+                        String answer = scanner.next();
+
+                        while (!(answer.equals("Y") || answer.equals("y") || answer.equals("N") || answer.equals("n"))) {
+                            System.out.print("\nPlease enter a valid value (Y/N): ");
+                            answer = scanner.next();
+                        }
+
+                        if (answer.equals("Y") || answer.equals("y")) {
+                            clearConsole();
+                            options();
+                            return;
+                        } else {
+                            clearConsole();
+                            topicRectangle("CREDENTIAL MANAGE");
+                            break;
+                        }
+                    } else {
+                        System.out.println("Incorrect password. Please try again.");
+                    }
+                }
+            } else {
+                System.out.println("Invalid username. Please try again.");
+            }
+        }
+    }
+
     public static boolean loginPage(){
         topicRectangle("LOGIN PAGE");
-
-        String validUsername = "admin";
-        String validPassword = "1234";
 
         boolean first = true;
         boolean second = true;
 
         while (first) {
-            System.out.print("Enter username: ");
+            System.out.print("\nEnter username: ");
             String enteredUsername = scanner.nextLine();
 
             if (enteredUsername.equals(validUsername)) {
